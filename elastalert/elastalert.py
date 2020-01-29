@@ -2000,6 +2000,7 @@ class ElastAlerter(object):
         try:
             smtp = SMTP(self.smtp_host)
             smtp.sendmail(self.from_addr, recipients, email.as_string())
+            print("mail send")
         except (SMTPException, error) as e:
             self.handle_error('Error connecting to SMTP host: %s' % (e), {'email_body': email_body})
 
