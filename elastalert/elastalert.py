@@ -1345,8 +1345,8 @@ class ElastAlerter(object):
             lookup_es_key(match, rule['timestamp_field']),
             rule.get('kibana4_end_timedelta', rule.get('timeframe', datetime.timedelta(minutes=10)))
         ).replace('Z', '.000Z')
-        #print(kibana.kibana4_dashboard_link(db_name, start, end))
-        return kibana.kibana4_dashboard_link(db_name, start, end)
+        #print(kibana.kibana7_dashboard_link(db_name, start, end))
+        return kibana.kibana7_dashboard_link(db_name, start, end)
 
     
     def generate_kibana_db(self, rule, match):
