@@ -1333,6 +1333,22 @@ class ElastAlerter(object):
         )
         return kibana.kibana4_dashboard_link(db_name, start, end)
 
+    def generate_kibana7_db(self, rule, match):
+        ''' Creates a link for a kibana4 dashboard which has time set to the match. '''
+        db_name = rule.get('use_kibana4_dashboard')
+        start = ts_add(
+            lookup_es_key(match, rule['timestamp_field']),
+            -rule.get('kibana4_start_timedelta', rule.get('timeframe', datetime.timedelta(minutes=10)))
+        ).replace('Z', '.000Z')
+
+        end = ts_add(
+            lookup_es_key(match, rule['timestamp_field']),
+            rule.get('kibana4_end_timedelta', rule.get('timeframe', datetime.timedelta(minutes=10)))
+        ).replace('Z', '.000Z')
+        #print(kibana.kibana4_dashboard_link(db_name, start, end))
+        return kibana.kibana4_dashboard_link(db_name, start, end)
+
+    
     def generate_kibana_db(self, rule, match):
         ''' Uses a template dashboard to upload a temp dashboard showing the match.
         Returns the url to the dashboard. '''
@@ -1502,6 +1518,12 @@ class ElastAlerter(object):
             kb_link = self.generate_kibana4_db(rule, matches[0])
             if kb_link:
                 matches[0]['kibana_link'] = kb_link
+                
+        if rule.get('use_kibana7_dashboard'):
+            kb_link = self.generate_kibana7_db(rule, matches[0])
+            if kb_link:
+                matches[0]['kibana_link'] = kb_link
+                
 
         if rule.get('generate_kibana_discover_url'):
             kb_link = generate_kibana_discover_url(rule, matches[0])
