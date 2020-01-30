@@ -160,6 +160,7 @@ class ElastAlerter(object):
         self.disabled_rules = []
         self.replace_dots_in_field_names = self.conf.get('replace_dots_in_field_names', False)
         self.thread_data.num_hits = 0
+        self.thread_data.alerts_sent = 0
         self.thread_data.num_dupes = 0
         self.scheduler = BackgroundScheduler()
         self.string_multi_field_name = self.conf.get('string_multi_field_name', False)
@@ -1334,8 +1335,8 @@ class ElastAlerter(object):
         return kibana.kibana4_dashboard_link(db_name, start, end)
 
     def generate_kibana7_db(self, rule, match):
-        ''' Creates a link for a kibana4 dashboard which has time set to the match. '''
-        db_name = rule.get('use_kibana4_dashboard')
+        ''' Creates a link for a kibana7 dashboard which has time set to the match. '''
+        db_name = rule.get('use_kibana7_dashboard')
         start = ts_add(
             lookup_es_key(match, rule['timestamp_field']),
             -rule.get('kibana4_start_timedelta', rule.get('timeframe', datetime.timedelta(minutes=10)))
