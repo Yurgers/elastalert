@@ -173,7 +173,7 @@ dashboard_temp = {'editable': True,
                   'title': 'ElastAlert Alert Dashboard'}
 
 kibana4_time_temp = "(refreshInterval:(display:Off,section:0,value:0),time:(from:'%s',mode:absolute,to:'%s'))"
-kibana7_time_temp = "time:(from:'%s',to:'%s'))"
+kibana7_time_temp = "(time:(from:'%s',to:'%s'))"
 
 def set_time(dashboard, start, end):
     dashboard['services']['filter']['list']['0']['from'] = start
